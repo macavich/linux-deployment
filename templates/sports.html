@@ -14,6 +14,16 @@
 	{% endwith %}
 </div>
 
+{% if not logged_in %}
+	<br>
+	<a href="{{ url_for('showLogin') }}"> Click to Login! </a>
+	<br>
+{% else %}
+	<br>
+	<a href="{{ url_for('disconnect') }}"> Logout! </a>
+	<br>
+{% endif %}
+
 <h1>Categories</h1>
 <div>
 	{% for sport_id in dSports %}
