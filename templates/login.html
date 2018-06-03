@@ -1,0 +1,123 @@
+<html>
+<head>
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'>
+  </script>
+  <script src='https://apis.google.com/js/client:platform.js?onload=start'
+    async defer>
+  </script>
+</head>
+
+<body>
+  <div id="signinButton">
+    <span class="g-signin"
+      data-scope="openid email"
+      data-clientid="474679509745-ac3rqlbjbdkjra4kjpnckc1oc4g8ca9j.apps.googleusercontent.com"
+      data-redirecturi="postmessage"
+      data-accesstype="offline"
+      data-cookiepolicy="single_host_origin"
+      data-callback="signInCallback"
+      data-approvalprompt="force">
+    </span>
+  </div>
+
+  <button class="btn btn-default" id="new-menu-item">
+    <span class = "glyphicon glyphicon-glass" aria-hidden="true"></span>
+    Login With Facebook
+    <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+      <a href='javascript:sendTokenToServer()'>Login With Facebook</a>
+    </fb:login-button>
+  </button>
+  <div id="result"></div>
+
+<!-- FACEBOOK SIGN IN -->
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '368872873623121',
+      cookie     : true, // enbales cookies to allow the server to access the session
+      xfbml      : true, // parse social plugins on this page
+      version    : 'v2.8'
+    });
+
+    FB.AppEvents.logPageView();
+
+  };
+    // Load SDK Asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+   function sendTokenToServer() {
+     var access_token = FB.getAuthResponse()['accessToken'];
+     console.log('Welcome! Fetched your access token.');
+     console.log(access_token);
+     //this is a random FB api call
+     FB.api('/me', function(response) {
+       console.log('Successful login for:' + response.name);
+       $.ajax({
+         type: 'POST',
+         url: '/fbconnect?state={{STATE}}',
+         processData: false,
+         data: access_token,
+         contentType: 'application/octet-stream; charset=utf-8'
+       })
+        .done(function(result) {
+          if (result) {
+            // Handle or verify the server response if necessary.
+            $('#result').html('Login Successful! <br>' + result +
+                '<br> Redirecting...');
+            setTimeout(function() {
+              window.location.href = "/restaurant";
+            }, 4000);
+          } else {
+            $('#result').html('Failed to make a server side call');
+          }
+        });
+      });
+    };
+</script>
+
+<script>
+    function signInCallback(authResult) {
+      if (authResult['code']) {
+        // we know that we successfully got a response from google and
+        // the one time use-code is present
+
+        // remove the button, could have done this with .css too
+        $('#signinButton').attr('style', 'display: none');
+
+        // now we want to send the one time use code to the server
+        // if the server responds, write a 'login successful' message
+        // to the web page and then redirect to the main restaurants page
+
+        $.ajax({
+          type: 'POST',
+          url: '/gconnect?state={{STATE}}',
+          processData: false, // this means we do not want jquery to change the response into a string
+          contentType: 'application/octet-stream; charset=utf-8', //application/octet-stream means an arbitrary binary set of data
+          data: authResult['code']
+        })
+          .done( function(result) {
+            if (result) {
+              $('#result').html('Login Successful! <br>' + result + '<' +
+                '<br>Redirecting...');
+              setTimeout( function() {
+                window.location.href = "/restaurant";
+              }, 4000);
+            };
+          });
+      } else if (authResult['error']) {
+        console.log('there was an error: ' + authResult['error']);
+      } else {
+        $('#result').html('Failed to make a server-side call. ' +
+         'Check your configuration and console.');
+      };
+    };
+  </script>
+</body>
+
+</html>
