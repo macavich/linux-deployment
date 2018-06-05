@@ -1,0 +1,11 @@
+
+<h1> Delete the following menu item? </h1>
+<form action="{{ url_for('deleteSportItem', sport_id=sport.id, item_id=item.id) }}"
+      method='post'>
+  <h3>Name: {{ item.name }} </h3>
+  <p>Description: {{ item.description }}</p>
+  <input type="submit" value='Delete'>
+  <a href="{{ url_for('showSports') }}">
+    Cancel
+  </a>
+</form>

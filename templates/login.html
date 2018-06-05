@@ -53,11 +53,8 @@
 
    function sendTokenToServer() {
      var access_token = FB.getAuthResponse()['accessToken'];
-     console.log('Welcome! Fetched your access token.');
-     console.log(access_token);
      //this is a random FB api call
      FB.api('/me', function(response) {
-       console.log('Successful login for:' + response.name);
        $.ajax({
          type: 'POST',
          url: '/fbconnect?state={{STATE}}',
