@@ -268,12 +268,13 @@ def showSportItem(sport_id, item_id):
     if 'username' in login_session:
         return render_template(
             'privateShowSportItem.html', item=item, sport=sport)
-    return render_template('showSportItem.html', item=item, sport=sport)
+    return render_template('publicShowSportItem.html', item=item, sport=sport)
 
 #Create a new sport item
 @app.route('/sports/new/',methods=['GET','POST'])
 def newSportItem():
     if 'username' not in login_session:
+        flash("You must be logged in to create a new Item!")
         return redirect('/login/')
     session = DBSession()
     if request.method == 'POST':

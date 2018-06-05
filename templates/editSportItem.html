@@ -1,3 +1,6 @@
+{% extends "main.html" %}
+{% block content %}
+
 <div>
   <h3> Would you like to Edit the Item: {{ item.name }} </h3>
   <form action="{{ url_for('editSportItem', sport_id = sport.id,
@@ -23,3 +26,5 @@
     </a>
   </form>
 </div>
+
+{% endblock %}
