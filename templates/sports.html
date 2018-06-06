@@ -1,49 +1,41 @@
 
 {% extends "main.html" %}
 {% block content %}
+{% include "header.html" %}
 
-<div class = 'flash'>
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			<ul>
-				{% for message in messages %}
-						<li> <strong> {{ message }} </strong> </li>
-				{% endfor %}
-			</ul>
-		{% endif %}
-	{% endwith %}
-</div>
+<main class="main">
+	<div>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul class = 'flash'>
+					{% for message in messages %}
+							<li> <strong> {{ message }} </strong> </li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+	</div>
 
-{% if not logged_in %}
-	<br>
-	<a href="{{ url_for('showLogin') }}"> Click to Login! </a>
-	<br>
-{% else %}
-	<br>
-	<a href="{{ url_for('disconnect') }}"> Logout! </a>
-	<br>
-{% endif %}
+	<section class="categories">
+		<h1>Categories</h1>
+		{% for sport_id in dSports %}
+			<a href = "{{ url_for('showSportsItems', sport_id = sport_id) }}">
+				{{ dSports[sport_id] }}
+			</a>
+			<br>
+		{% endfor %}
+	</section>
 
-<h1>Categories</h1>
-<div>
-	{% for sport_id in dSports %}
-		<a href = "{{ url_for('showSportsItems', sport_id = sport_id) }}">
-			{{ dSports[sport_id] }}
+	<section class="items">
+		<a href="{{ url_for('newSportItem') }}">
+			New Item
 		</a>
-		<br>
-	{% endfor %}
-</div>
-
-<h1>Items</h1>
-<div>
-	<a href="{{ url_for('newSportItem') }}">
-		New Item
-	</a>
-	<br><br>
-	{% for item in itemsToShow %}
-	 	<a href = "{{ url_for('showSportItem', sport_id=item.sport_id, item_id=item.id) }}">{{ item.name }} </a>
-		<span>{{ "(" + dSports[item.sport_id] + ")" }}</span>
-		<br>
-	{% endfor %}
-</div>
+		<h1>Items</h1>
+		{% for item in itemsToShow %}
+		 	<a href = "{{ url_for('showSportItem', sport_id=item.sport_id, item_id=item.id) }}">{{ item.name }} </a>
+			<span>{{ "(" + dSports[item.sport_id] + ")" }}</span>
+			<br>
+		{% endfor %}
+	</section>
+</main>
 {% endblock %}

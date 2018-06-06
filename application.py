@@ -305,13 +305,13 @@ def newSportItem():
         return render_template('newSportItem.html', sports=sports)
 
 
-# #Edit a menu item
+# #Edit a sport item
 @app.route(
     '/sports/<int:sport_id>/items/<int:item_id>/edit/', methods=['GET','POST'])
 def editSportItem(sport_id, item_id):
     if 'username' not in login_session:
         flash("You must be logged in to edit items!")
-        redirect(url_for('showSports'))
+        return redirect(url_for('showSports'))
     session = DBSession()
     try:
         itemToEdit = session.query(SportItem).filter_by(id = item_id).one()
@@ -344,13 +344,14 @@ def editSportItem(sport_id, item_id):
         return render_template(
             'editSportItem.html', item=itemToEdit, sport=sport, sports=sports)
 
+
 #Delete a sport item
 @app.route('/sports/<int:sport_id>/items/<int:item_id>/delete/',
            methods = ['GET','POST'])
 def deleteSportItem(sport_id, item_id):
     if 'username' not in login_session:
         flash("You must be logged in to delete items!")
-        redirect(url_for('showSports'))
+        return redirect(url_for('showSports'))
     session = DBSession()
     try:
         itemToDelete = session.query(SportItem).filter_by(id = item_id).one()
@@ -364,7 +365,7 @@ def deleteSportItem(sport_id, item_id):
         return redirect(url_for('showSports'))
     if itemToDelete.user_id != login_session['user_id']:
         flash("You can only delete items which you have created!")
-        redirect(url_for('showSports'))
+        return redirect(url_for('showSports'))
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -387,11 +388,6 @@ def getUserID(email):
     except:
         return None
 
-
-def getUserInfo(user_id):
-    session = DBSession()
-    user = session.query(User).filter_by(id = user_id).one()
-    return user
 
 def createUser(login_session):
     session = DBSession()
