@@ -1,0 +1,100 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: grey;
+  padding-left: 0;
+  padding-right: 0;
+  height: 100vh;
+}
+
+
+/*
+*
+header content
+*
+*/
+
+header {
+  display: flex;
+  background-color: darkblue;
+  color: orange;
+  padding-left: 5%;
+  padding-right: 5%;
+  max-height: 10vh;
+}
+
+.login__link {
+  padding-top: 2vh;
+  margin-left: auto;
+}
+
+/*
+*
+main content
+*
+*/
+
+main {
+  background-color: lightblue;
+  margin-right: 5%;
+  margin-left: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flash {
+  width: 100%;
+  padding-bottom: 5%;
+}
+
+.categories {
+  border-right-style: solid;
+  border-right-color: grey;
+}
+
+.items {
+  padding-left: 5%;
+}
+
+
+.categories, .items {
+  width: 50%;
+  min-width: 40%;
+}
+
+/*
+*
+displaying sport items
+*
+*/
+
+.item__title {
+  color: darkblue;
+}
+
+.sport__item__link {
+  font-size: 1.2em;
+}
+
+/*
+*
+Edit and Create content
+*
+*/
+
+.descriptionbox {
+  width: 300px;
+  height: 80px;
+}
