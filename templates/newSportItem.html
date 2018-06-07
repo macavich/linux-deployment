@@ -1,26 +1,30 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-
-<h1> Add a new item </h1>
-<form action="{{ url_for('newSportItem') }}"
-      method='post'>
-  <p>Name:</p>
-  <input type="text" size="30" name="name" placeholder="Maybe something like 'Ball'.">
-	<p>Description:</p>
-  <input type="text" size="30" name="description" placeholder="Maybe something like 'Made out of steel'.">
-	<p>Sport:</p>
-  <input type="text" name="sport" list="categories" placeholder="Choose a Sport!">
-	<datalist id="categories">
-		{% for sport in sports %}
-		<option value="{{ sport.name }}"><br>
-		{% endfor %}
-	</datalist>
-	<br><br>
-  <input type="submit" value='Create'>
-  <a href="{{ url_for('showSports') }}">
-    Cancel
-  </a>
-</form>
+<main>
+  <div>
+    <h1 class="item__title"> Add a new item: </h1>
+    <form action="{{ url_for('newSportItem') }}" method="post">
+      <p>Name:</p>
+      <input type="text" size="30" name="name"
+        placeholder="Maybe something like 'Ball'.">
+    	<p>Description:</p>
+      <textarea class="descriptionbox" type="text" size="30" name="description"
+        placeholder="Maybe something like 'Made out of steel'."></textarea>
+    	<p>Sport:</p>
+      <input type="text" name="sport" list="categories" placeholder="Choose a Sport!">
+    	<datalist id="categories">
+    		{% for sport in sports %}
+    		<option value="{{ sport.name }}"><br>
+    		{% endfor %}
+    	</datalist>
+    	<br><br>
+      <input type="submit" value="Create">
+      <a href="{{ url_for('showSports') }}">
+        Cancel
+      </a>
+    </form>
+  <div>
+</main>
 
 {% endblock %}

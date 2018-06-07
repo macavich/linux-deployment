@@ -2,18 +2,18 @@
 {% block content %}
 {% include "header.html" %}
 
-<div>
-  <h3> Would you like to Edit the Item: {{ item.name }} </h3>
+<main>
+  <h3 class="item__title"> Would you like to Edit the Item: {{ item.name }} </h3>
   <form action="{{ url_for('editSportItem', sport_id = sport.id,
       item_id = item.id) }}"
         method='post'>
     <p>Name:</p>
-    <input type="text" size="30" name="name" placeholder="{{ item.name }}">
+    <input type="text" size="30" name="name" value="{{ item.name }}">
     <p>Desciption:</p>
-    <input class="descriptionbox" type="text" size="30" name="description"
-        placeholder="{{ item.description }}">
+    <textarea class="descriptionbox" size="30" type="text" name="description"
+        placeholder="{{ item.description }}" wrap="soft"></textarea>
 		<p>Category:</p>
-		<input type="text" name="sport" list="categories" placeholder={{ sport.name }}>
+		<input type="text" name="sport" list="categories" value={{ sport.name }}>
 		<datalist id="categories">
 			{% for sport in sports %}
 			<option value="{{ sport.name }}">
@@ -26,6 +26,6 @@
       Cancel
     </a>
   </form>
-</div>
+</main>
 
 {% endblock %}

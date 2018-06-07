@@ -2,16 +2,24 @@
 {% block content %}
 {% include "header.html" %}
 
-<div>
-	{% if items != [] %}
-	<ul>
-		{% for item in items %}
-		<li><a href="{{ url_for('showSportItem',sport_id=item.sport_id,item_id=item.id)}}">
-			 {{ item.name }}
-		</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
-</div>
+<main>
+	<div>
+		<h4 class="item__title">
+			The following items are associated with the category: {{sport.name}}
+		</h4>
+		{% if items != [] %}
+		<ul>
+			{% for item in items %}
+			<li>
+				<a class="sport__item__link"
+					 href="{{ url_for('showSportItem',sport_id=item.sport_id,item_id=item.id)}}">
+				 {{ item.name }}
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+<main>
 
 {% endblock %}

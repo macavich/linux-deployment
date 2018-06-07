@@ -1,4 +1,5 @@
 <header class="login__header">
+		<h1 class="header__title"> Catalog App </h1>
 		{% if not logged_in %}
 			<form class="login__link" action="{{ url_for('showLogin') }}" method="get">
 	  			<button>Login</button>

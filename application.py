@@ -251,24 +251,34 @@ def showSports():
 @app.route('/sport/<int:sport_id>/')
 @app.route('/sport/<int:sport_id>/items/')
 def showSportsItems(sport_id):
+    logged_in = False
+    if 'username' in login_session:
+        logged_in = True
     session = DBSession()
     sport = session.query(Sport).filter_by(id = sport_id).one()
     items = session.query(SportItem).filter_by(sport_id = sport_id).all()
-    return render_template('sportsItems.html', items = items, sport = sport)
+    return render_template(
+        'sportsItems.html', items=items, sport=sport, logged_in=logged_in)
+
 
 # Show a single sport item
 @app.route('/sports/<int:sport_id>/items/<int:item_id>/')
 def showSportItem(sport_id, item_id):
+    logged_in = False
+    if 'username' in login_session:
+        logged_in = True
     session = DBSession()
     try:
         item = session.query(SportItem).filter_by(id=item_id).one()
         sport = session.query(Sport).filter_by(id=sport_id).one()
     except NoResultFound:
         return jsonify({'error': 'incorrect sport or item id'}), 404
-    if 'username' in login_session:
-        return render_template(
-            'privateShowSportItem.html', item=item, sport=sport)
-    return render_template('publicShowSportItem.html', item=item, sport=sport)
+    if logged_in:
+        return render_template('privateShowSportItem.html',
+                               item=item, sport=sport, logged_in=logged_in)
+    return render_template(
+        'publicShowSportItem.html', item=item, sport=sport, logged_in=logged_in)
+
 
 #Create a new sport item
 @app.route('/sports/new/',methods=['GET','POST'])
@@ -276,6 +286,7 @@ def newSportItem():
     if 'username' not in login_session:
         flash("You must be logged in to create a new Item!")
         return redirect('/login/')
+    logged_in = True
     session = DBSession()
     if request.method == 'POST':
         if request.form['sport']:
@@ -292,17 +303,18 @@ def newSportItem():
                                 user_id = login_session['user_id'])
             session.add(newItem)
             session.commit()
-            flash('New Menu %s Item Successfully Created' % (newItem.name))
+            flash('New Sport %s Item Successfully Created' % (newItem.name))
             return redirect(url_for('showSports'))
         elif not request.form['name'] or not request.form['description']:
             flash('You were missing some fields, please try again')
-            return render_template('newSportItem.html')
+            return render_template('newSportItem.html', logged_in=logged_in)
         else:
             flash("Something unknown happened, please try again")
-            return render_template('newSportItem.html')
+            return render_template('newSportItem.html', logged_in=logged_in)
     else:
         sports = session.query(Sport).all()
-        return render_template('newSportItem.html', sports=sports)
+        return render_template(
+            'newSportItem.html', sports=sports, logged_in=logged_in)
 
 
 # #Edit a sport item
@@ -312,6 +324,7 @@ def editSportItem(sport_id, item_id):
     if 'username' not in login_session:
         flash("You must be logged in to edit items!")
         return redirect(url_for('showSports'))
+    logged_in = True
     session = DBSession()
     try:
         itemToEdit = session.query(SportItem).filter_by(id = item_id).one()
@@ -337,12 +350,12 @@ def editSportItem(sport_id, item_id):
             itemToEdit.sport_id = newSport.id
         session.add(itemToEdit)
         session.commit()
-        flash('Sport Item Successfully Edited!')
+        flash('Sport Item {} Successfully Edited!'.format(itemToEdit.name))
         return redirect(url_for('showSports'))
     else:
         sports = session.query(Sport).all()
-        return render_template(
-            'editSportItem.html', item=itemToEdit, sport=sport, sports=sports)
+        return render_template('editSportItem.html', item=itemToEdit,
+                               sport=sport, sports=sports, logged_in=logged_in)
 
 
 #Delete a sport item
@@ -352,6 +365,7 @@ def deleteSportItem(sport_id, item_id):
     if 'username' not in login_session:
         flash("You must be logged in to delete items!")
         return redirect(url_for('showSports'))
+    logged_in = True
     session = DBSession()
     try:
         itemToDelete = session.query(SportItem).filter_by(id = item_id).one()
@@ -372,8 +386,8 @@ def deleteSportItem(sport_id, item_id):
         flash('Sport Item {} Successfully Deleted'.format(itemToDelete.name))
         return redirect(url_for('showSports'))
     else:
-        return render_template(
-            'deleteSportItem.html', item = itemToDelete, sport=sport)
+        return render_template('deleteSportItem.html', item = itemToDelete,
+                               sport=sport, logged_in=logged_in)
 
 
 def getUserID(email):
