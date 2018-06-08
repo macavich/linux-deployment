@@ -14,30 +14,51 @@ To recreate my environment, you will need to install [Viritual Box](https://www.
 
 In the project repo, you'll find a file call Vagrantfile.  Please don't alter this, it will configure the Ubuntu virtual machine and download the python dependencies listed below for your virtual machine.
 
-Create a folder in your desired location and fork the repo.  I'd recommend making a vagrant folder with the Vagrantfile within it.  If pulled directly from this repo, the following commands in terminal will set things up as you'll want them.
-```mkdir vagrant```
-```mv * vagrant```
-```cd vagrant```
+Create a folder in your desired location and fork the repo.  I'd recommend making a vagrant folder with the Vagrantfile within it.  If pulled directly from this repo, the following commands in terminal will set things up as you'll want them for the virtual machine.
+```
+$ mkdir vagrant
+$ mkdir vagrant/catalog
+$ mv * vagrant/catalog
+```
+(you'll get a friendly message from bash saying you can't move vagrant into itself!)
+```
+$ cd vagrant
+```
 
 Now you're in your newly made vagrant directory.  Time to get the virutal machine running.
 Execute the following:
-```vagrant up```
-This will take a bit, you are downloading the entire Ubuntu operating system.
-```vagrant ssh```
+```
+$ vagrant up
+```
+This may take up to 15 or so minutes depending on your internet connection; you are downloading the entire Ubuntu operating system.
+```
+$ vagrant ssh
+```
 Now you should see Ubuntu machine up and running!  Move into our vagrant folder.
-```cd /vagrant```
+```
+$ cd /vagrant
+```
 
 and finally `cd Sports-Project`.
 
 Time to set up the project!
 
 # Execution
-You need to run the following python files first to set up the database and add sample items to your newly made database.
-```python database_setup.py```
-```python sampleItems.py```
+You need to run the following python files first to set up the database and add sample items to your newly made database.  As of the time of my writing this, I am using the following version of python:
+```
+$ python --version
+$ Python 2.7.12
+```
+Now run the following commands from the bash terminal.
+```
+$ python database_setup.py
+$ python sampleItems.py
+```
 
 And finally:
-```python application.py```
+```
+$ python application.py
+```
 
 You'll see a response in your terminal saying "* Running on http://0.0.0:8000/ (Press CTRL+C to quit)".  At this point you'll know your server is running, and can be accessed from a browser after hitting enter in the search bar filled with http://localhost:8000/.
 
@@ -45,34 +66,45 @@ You'll see a response in your terminal saying "* Running on http://0.0.0:8000/ (
 
 ### Python Library Dependencies
 
-Successful execution requires the standard python library for python2.  I am using Ubuntu version 16.04.  I am running this in a virtual machine, installed with Vagrant and Virtual Box.  The following dependecies are also required and will be already installed if running the virtual machine indicated as above.  For users not running the virtual machine, I will list out the packages and the versions that I have installed as of the time of me writing this.  To install any of the following packages, simply open a new terminal and write `pip install {package}`.  Depending on your user permissions, you may need to try to following to successfully install packages. `pip install {package} --user`
+Successful execution requires the standard python library for python2.  I am using Ubuntu version 16.04.  I am running this in a virtual machine, installed with Vagrant and Virtual Box.  The following dependecies are also required and will be already installed if running the virtual machine indicated as above.
 
-```>>> flask.__version__```
-```'1.0.2'```
-```>>> httplib2.__version__```
-```'0.11.3'```
-```>>> requests.__version__```
-```'2.18.4'```
-```>>> oauth2client.__version__```
-```'4.1.2'```
-```>>> sqlalchemy.__version__```
-```'1.2.7```
+For users not running the virtual machine, I will list out the packages and the versions that I have installed as of the time of me writing this.  To install any of the following packages, simply open a new bash terminal and write `$ pip install {package}`, of course replacing `{package}` with whatever you desire, like so `$ pip install flask`.  Depending on your user permissions, you may need to try to following to successfully install packages. `$ pip install {package} --user`.  If that doesn't work, one may need to use the following: `$ sudo pip install {package}`.
+```
+>>> flask.__version__
+'1.0.2'
+>>> httplib2.__version__
+'0.11.3'
+>>> requests.__version__
+'2.18.4'
+>>> oauth2client.__version__
+'4.1.2'
+>>> sqlalchemy.__version__
+'1.2.7'
+```
 
-If you're having issues with a particular library, you can install any library's version with the following command. (The below example is installing a specific version of flask, please change the package name to whatever suits your needs)
+If you're having issues with a particular library, you can install any library's version with the following command. The below example is installing a specific version of flask, please change the package name to whatever suits your needs, and note that if you needed `--user` or `sudo` in the install, you'll need it down here too.
 
-```pip install flask==1.0.2 --user```
+```
+$ pip install flask==1.0.2 --user
+```
 
 # JSON API Endpoints:
 To view all of the categories and their associated IDs (which will be helpful for further endpoints), send a GET request to:
-```localhost:8000/sports/JSON/```
+```
+localhost:8000/sports/JSON/
+```
 
 To view all of the items for a category of id '#', send a GET request to:
-```localhost:8000/sports/#/JSON/```
+```
+localhost:8000/sports/#/JSON/
+```
 
 To view all a single item of id '##' for a category of id '#', send a GET request to:
-```localhost:8000/sports/#/items/##/JSON/```
+```
+localhost:8000/sports/#/items/##/JSON/
+```
 
-As one can see, navigation of the API is contingent on a client's ability to identify the 'id' property of categories and items.
+As one can see, navigation of the API is contingent on a client's ability to identify the 'id' property of categories and items.  Happy requesting!
 
 # Contributing
 I am not looking for contributors as of the time me writing this.
