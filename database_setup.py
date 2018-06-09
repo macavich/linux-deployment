@@ -47,7 +47,8 @@ class SportItem(Base):
            'name'         : self.name,
            'description'  : self.description,
            'id'           : self.id,
-           'sport_id'     : self.sport_id
+           'sport_id'     : self.sport_id,
+           'user_id'      : self.user_id
        }
 
 engine = create_engine('sqlite:///sportscatalog.db')

@@ -2,16 +2,15 @@
 {% block content %}
 {% include "header.html" %}
 <main>
-  <div>
+  <div class="item__container">
     <h2 class="item__title"> {{ item.name }} </h2>
-    <h4> Description: </h4>
-    <p> {{ item.description }} </p>
-    <h4> Sport: </h4>
-    <p> {{ sport.name }} </p>
-    <a href="{{ url_for('editSportItem', sport_id = sport.id, item_id = item.id) }}">
+    <p class="item__text"> Description: {{ item.description }} </p>
+    <p class="sport__text"> Sport: {{ sport.name }} </p>
+    <br>
+    <a class="edit__delete__link" href="{{ url_for('editSportItem', sport_id = sport.id, item_id = item.id) }}">
       Edit
-    </a>
-    <a href="{{ url_for('deleteSportItem', sport_id = sport.id, item_id = item.id) }}">
+    </a> |
+    <a class="edit__delete__link" href="{{ url_for('deleteSportItem', sport_id = sport.id, item_id = item.id) }}">
       Delete
     </a>
   </div>

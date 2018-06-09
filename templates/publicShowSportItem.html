@@ -2,12 +2,11 @@
 {% block content %}
 {% include "header.html" %}
 <main>
-  <div>
+  <div class="item__container">
     <h2 class="item__title"> {{ item.name }} </h2>
-    <h4> Description: </h4>
-    <p> {{ item.description }} </p>
-    <h4> Sport: </h4>
-    <p> {{ sport.name }} </p>
+    <br>
+    <p class="item__text"> Description: {{ item.description }} </p>
+    <p class="item__text"> Sport: {{ sport.name }} </p>
   </div>
 </main>
 {% endblock %}

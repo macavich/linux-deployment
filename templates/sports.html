@@ -4,10 +4,10 @@
 {% include "header.html" %}
 
 <main class="main">
-	<div>
+	<div class=flash>
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
-				<ul class = 'flash'>
+				<ul>
 					{% for message in messages %}
 							<li> <strong> {{ message }} </strong> </li>
 					{% endfor %}
@@ -19,7 +19,7 @@
 	<section class="categories">
 		<h1>Categories</h1>
 		{% for sport_id in dSports %}
-			<a href = "{{ url_for('showSportsItems', sport_id = sport_id) }}">
+			<a href="{{ url_for('showSportsItems', sport_id = sport_id) }}">
 				{{ dSports[sport_id] }}
 			</a>
 			<br>
@@ -32,7 +32,7 @@
 		</a>
 		<h1>Items</h1>
 		{% for item in itemsToShow %}
-		 	<a href = "{{ url_for('showSportItem', sport_id=item.sport_id, item_id=item.id) }}">{{ item.name }} </a>
+		 	<a href="{{ url_for('showSportItem', sport_id=item.sport_id, item_id=item.id) }}">{{ item.name }} </a>
 			<span>{{ "(" + dSports[item.sport_id] + ")" }}</span>
 			<br>
 		{% endfor %}
