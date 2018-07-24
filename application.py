@@ -20,13 +20,14 @@ import requests
 app = Flask(__name__)
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///sportscatalog.db')
+engine=create_engine('postgresql://catalog:secret_password@localhost/catalog')
+#engine = create_engine('sqlite:////home/ubuntu/catalog-project/catalog-app/sportscatalog.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open('/home/ubuntu/catalog-project/catalog-app/client_secrets.json', 'r').read())['web']['client_id']
 
 
 # OAuth2 connection with Facebook
@@ -476,3 +477,4 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
+    # app.run()

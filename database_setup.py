@@ -51,6 +51,7 @@ class SportItem(Base):
            'user_id'      : self.user_id
        }
 
-engine = create_engine('sqlite:///sportscatalog.db')
+engine = create_engine('postgresql://catalog:secret_password@localhost/catalog')
+#engine = create_engine('sqlite:////home/ubuntu/catalog-project/catalog-app/sportscatalog.db')
 
 Base.metadata.create_all(engine)
