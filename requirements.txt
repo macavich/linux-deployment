@@ -1,0 +1,6 @@
+flask==1.0.2
+httplib2==0.11.3
+requests==2.18.4
+outh2client==4.1.2
+sqlalchemy==1.2.7
+
